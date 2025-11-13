@@ -9,6 +9,7 @@ import {
 import { User, UserRole } from '../../db/models/User';
 import { DbModule } from '../db.module';
 import { TicketsController } from './tickets.controller';
+import { TicketsService } from './tickets.service';
 
 describe('TicketsController', () => {
   let controller: TicketsController;
@@ -17,6 +18,7 @@ describe('TicketsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TicketsController],
       imports: [DbModule],
+      providers: [TicketsService],
     }).compile();
 
     controller = module.get<TicketsController>(TicketsController);
@@ -132,7 +134,7 @@ describe('TicketsController', () => {
         );
       });
 
-      it('if there is no secretary, throw', async () => {
+      it('if there is no secretary or director, throw', async () => {
         const company = await Company.create({ name: 'test' });
 
         await expect(
@@ -142,7 +144,7 @@ describe('TicketsController', () => {
           }),
         ).rejects.toEqual(
           new ConflictException(
-            `Cannot find user with role corporateSecretary to create a ticket`,
+            `Cannot find user with role director to create a ticket`,
           ),
         );
       });
