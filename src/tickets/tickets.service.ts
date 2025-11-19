@@ -121,6 +121,7 @@ export class TicketsService {
       case TicketType.registrationAddressChange: {
         const secretaries = await User.findAll({
           where: { companyId, role: UserRole.corporateSecretary },
+          limit: 2,
         });
 
         if (secretaries.length > 1) {
@@ -131,13 +132,13 @@ export class TicketsService {
 
         if (secretaries.length === 1) {
           assignee = secretaries[0];
-          break;
+        } else {
+          assignee = await this.findSingleUserWithRole(
+            UserRole.director,
+            companyId,
+          );
         }
-
-        assignee = await this.findSingleUserWithRole(
-          UserRole.director,
-          companyId,
-        );
+        
         break;
       }
       case TicketType.strikeOff: {
