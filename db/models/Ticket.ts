@@ -18,11 +18,12 @@ export enum TicketStatus {
 export enum TicketType {
   managementReport = 'managementReport',
   registrationAddressChange = 'registrationAddressChange',
+  strikeOff = 'strikeOff',
 }
 
 export enum TicketCategory {
   accounting = 'accounting',
-  corporate = 'registrationAddressChange',
+  corporate = 'corporate',
   management = 'management',
 }
 
